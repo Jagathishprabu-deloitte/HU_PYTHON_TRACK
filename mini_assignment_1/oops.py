@@ -14,17 +14,51 @@ class StringClass:
 
 
 class PairsPossible(StringClass):
-    def __init__(self):
-        pass
-    def pairs(self,list2):
-        pair = list(combinations(list2, 2))
+    def __init__(self,value):
+        self.str = value
+    def pairs(self):
+        pair = list(combinations(self.str, 2))
         return pair
 
+class SearchCommonElements(StringClass):
+    def __init__(self,str1,str2):
+        self.str1 = str1
+        self.str2 = str2
 
-value = "12314532"
-obj = StringClass(value)
-print(obj.length())
-print(obj.tolist(value))
-list2=obj.tolist(value)
-obj2 = PairsPossible()
-print(obj2.pairs(list2))
+    def commonElements(self):
+        removed = list(set(self.str1) & set(self.str2))
+        return removed
+1
+class EqualSumPairs():
+    def count(self, list1):
+        list2 = []
+        for i in list1:
+            sum = 0
+            for j in i:
+                sum += int(j)
+            list2.append(sum)
+        return len(set(list2))
+
+
+
+value1 = input("Enter String: ")
+obj1 = StringClass(value1)
+print("Length of the String: ")
+print(obj1.length())
+print("List of String: ")
+print(obj1.tolist(value1))
+
+value2 = input("Enter String: ")
+obj2 = PairsPossible(value2)
+list1=obj2.pairs()
+print("Pairs Possible are: ")
+print(list1)
+
+obj3=SearchCommonElements(value1,value2)
+print("Common Elements are: ")
+print(obj3.commonElements())
+
+obj4 = EqualSumPairs()
+length=obj4.count(list1)
+print("Count of unique sums: ")
+print(length)
