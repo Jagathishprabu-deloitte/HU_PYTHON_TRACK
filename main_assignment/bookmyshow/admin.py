@@ -1,8 +1,11 @@
-from xlwt import Workbook
+import datetime as dt
+
+import xlrd
+from xlutils.copy import copy
 
 
 def admin_options():
-    print("****** Welcome Admin ******* ")
+    print("******Welcome Admin******* ")
     print("1.Add New Movie Info")
     print("2.Edit Movie Info")
     print("3.Delete Movie Info")
@@ -25,59 +28,60 @@ def admin_options():
 
 
 def add_new_movie():
-    print("--- Add New Movie ---")
-    wb = Workbook()
-    sheet1 = wb.add_sheet('Sheet 1')
-    print("****** Welcome Admin ******* ")
-    sheet1.write(0, 0, 'Title')
-    sheet1.write(0, 1, 'Genre')
-    sheet1.write(0, 2, 'Length')
-    sheet1.write(0, 3, 'Cast')
-    sheet1.write(0, 4, 'Director')
-    sheet1.write(0, 5, 'Admin Rating')
-    sheet1.write(0, 6, 'Language')
-    sheet1.write(0, 7, 'Number of Shows per a day')
-    sheet1.write(0, 8, 'First Show')
-    sheet1.write(0, 9, 'Interval Time')
-    sheet1.write(0, 10, 'Gap Between Shows')
-    sheet1.write(0, 11, 'Timings')
-    sheet1.write(0, 12, 'Capacity')
+    rb = xlrd.open_workbook('addMovies.xls', formatting_info=True)
+    r_sheet = rb.sheet_by_index(0)
+    r = r_sheet.nrows
+    wb = copy(rb)
+    sheet = wb.get_sheet(0)
+    print("******Welcome Admin******* ")
     title = input("Enter the title: ")
-    sheet1.write(1, 0, title)
+    sheet.write(r, 0, title)
     genre = input("Enter the Genre: ")
-    sheet1.write(1, 1, genre)
-    length = input("Enter the length of the movie: ")
-    sheet1.write(1, 2, length)
+    sheet.write(r, 1, genre)
+    length = int(input("Enter the length of the movie(in minutes): "))
+    sheet.write(r, 2, length)
     cast = input("Enter the cast: ")
-    sheet1.write(1, 3, cast)
+    sheet.write(r, 3, cast)
     director = input("Enter the director name: ")
-    sheet1.write(1, 4, director)
-    admin_rating = input("Enter the admin rating: ")
-    sheet1.write(1, 5, admin_rating)
+    sheet.write(r, 4, director)
+    admin_rating = int(input("Enter the admin rating: "))
+    sheet.write(r, 5, admin_rating)
     language = input("Enter the language: ")
-    sheet1.write(1, 6, language)
+    sheet.write(r, 6, language)
     shows = int(input("Enter Number of Shows per a day: "))
-    sheet1.write(1, 7, shows)
-    first_show = input("Enter the first show start time")
-    sheet1.write(1, 8, first_show)
-    interval_time = input("Enter the interval time: ")
-    sheet1.write(1, 9, interval_time)
-    gap_between_shows = input("Enter the gap between show: ")
-    sheet1.write(1, 10, gap_between_shows)
-    timings = "8.00-12.00, 1.00-4.00, 5.00-8.00, 8.00-11.00"
-    sheet1.write(1, 11, timings)
-    capacity = int(input("Enter the capacity"))
-    sheet1.write(1, 12, capacity)
-    wb.save('movieData.xls')
+    sheet.write(r, 7, shows)
+    first_show = input("Enter the first show start time(HH:MM): ")
+    sheet.write(r, 8, first_show)
+    interval_time = int(input("Enter the interval time(in minutes): "))
+    sheet.write(r, 9, interval_time)
+    gap_between_shows = int(input("Enter the gap between show(in minutes): "))
+    sheet.write(r, 10, gap_between_shows)
+    capacity = int(input("Enter the capacity: "))
+    date_time_first_show = dt.datetime.strptime(first_show, "%H:%M")
+    time_first_show = date_time_first_show
+    time1 = int(length + interval_time)
+    delta = dt.timedelta(minutes=time1)
+    delta2 = dt.timedelta(minutes=gap_between_shows)
+    timings = []
+    for i in range(shows):
+        final_date_time = time_first_show + delta
+        time_first = str(time_first_show.time())
+        final_time = str(final_date_time.time())
+        timings.append(time_first + "-" + final_time)
+        time_first_show = final_date_time + delta2
+    print(timings)
+    sheet.write(r, 11, timings)
+    sheet.write(r, 12, capacity)
+    wb.save('addMovies.xls')
 
 
 def edit_movie():
-    print("--- Edit Movie Info---")
-    print("****** Welcome Admin ******* ")
+    print("******Welcome Admin******* ")
+    print("edit movie")
 
 
 def delete_movie():
-    print("***** Welcome Admin ******* ")
+    print("******Welcome Admin******* ")
     print("delete movie")
 
 

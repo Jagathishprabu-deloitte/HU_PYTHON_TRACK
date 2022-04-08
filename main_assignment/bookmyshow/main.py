@@ -1,5 +1,6 @@
 from bookmyshow.admin import admin_options
 from bookmyshow.data import user_registration, user_login, admin_login
+from bookmyshow.user import user_options
 
 
 class HomePage:
@@ -29,6 +30,7 @@ class HomePage:
                 res = user_login(username, password)
                 if res:
                     print("User Login Successful")
+                    user_options()
                     self.home_page()
                 else:
                     print("Retry Login or Register User..!!")
