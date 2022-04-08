@@ -55,6 +55,7 @@ def user_choice():
 
 def book_ticket():
     print("******Welcome User*******")
+
     user_choice()
 
 
