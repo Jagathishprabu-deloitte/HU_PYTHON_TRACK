@@ -1,5 +1,5 @@
 from bookmyshow.admin import admin_options
-from bookmyshow.data import user_registration, user_login, admin_login
+from bookmyshow.datahandling import user_registration, admin_login, user_login
 from bookmyshow.user import user_options
 
 
@@ -23,6 +23,7 @@ class HomePage:
                 if admin_password == password:
                     print("--- Admin Login Successful ---")
                     admin_options()
+                    self.home_page()
                 else:
                     print("Incorrect Password..!!")
                     self.home_page()

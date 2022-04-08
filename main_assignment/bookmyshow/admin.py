@@ -1,13 +1,11 @@
-import datetime as dt
-
+import sys
 import xlrd
 from xlutils.copy import copy
-
-from bookmyshow.user import logout
+import datetime as dt
 
 
 def admin_options():
-    print("******Welcome Admin******* ")
+    print("****** Welcome Admin ******* ")
     print("1.Add New Movie Info")
     print("2.Edit Movie Info")
     print("3.Delete Movie Info")
@@ -30,7 +28,8 @@ def admin_options():
 
 
 def add_new_movie():
-    rb = xlrd.open_workbook('addMovies.xls', formatting_info=True)
+    print("--- Add New Movie ---")
+    rb = xlrd.open_workbook('movieData.xls', formatting_info=True)
     r_sheet = rb.sheet_by_index(0)
     r = r_sheet.nrows
     wb = copy(rb)
@@ -72,15 +71,17 @@ def add_new_movie():
         timings.append(time_first + "-" + final_time)
         time_first_show = final_date_time + delta2
     print(timings)
+    n = 0
     sheet.write(r, 11, timings)
     sheet.write(r, 12, capacity)
-    wb.save('addMovies.xls')
+    sheet.write(r, 13, n)
+    wb.save('movieData.xls')
 
 
 def edit_movie():
     print("--- Edit Movie Info---")
     print("****** Welcome Admin ******* ")
-    loc = "addMovies.xls"
+    loc = "movieData.xls"
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
     rows = sheet.nrows
@@ -102,14 +103,14 @@ def edit_movie():
 
 def movie(options):
     print("****** Welcome Admin ******* ")
-    loc = "addMovies.xls"
+    loc = "movieData.xls"
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
     col = sheet.ncols
     print("--- Movie description ---")
     for i in range(col):
         print(sheet.cell_value(0, i), ":", sheet.cell_value(options, i))
-    rb = xlrd.open_workbook('addMovies.xls', formatting_info=True)
+    rb = xlrd.open_workbook('movieData.xls', formatting_info=True)
     r_sheet = rb.sheet_by_index(0)
     r = r_sheet.nrows
     wb = copy(rb)
@@ -176,14 +177,14 @@ def movie(options):
         print("Enter a valid choice between 1 to 13..!!")
         movie(options)
     print("--- Movie Info Updated Successfully..!!! ---")
-    wb.save('addMovies.xls')
+    wb.save('movieData.xls')
     movie(options)
 
 
 def delete_movie():
     print("***** Welcome Admin ******* ")
     print("delete movie")
-    loc = "addMovies.xls"
+    loc = "movieData.xls"
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
     rows = sheet.nrows
@@ -204,12 +205,16 @@ def delete_movie():
 
 
 def delete(option):
-    rb = xlrd.open_workbook('addMovies.xls', formatting_info=True)
+    rb = xlrd.open_workbook('movieData.xls', formatting_info=True)
     r_sheet = rb.sheet_by_index(0)
     wb = copy(rb)
     sheet = wb.get_sheet(0)
     cols = r_sheet.ncols
     for i in range(cols):
         sheet.write(option, i, "")
-    wb.save("addMovies.xls")
+        wb.save("movieData.xls")
     delete_movie()
+
+
+def logout():
+    sys.exit()

@@ -1,4 +1,3 @@
-import openpyxl as openpyxl
 import xlrd as xlrd
 from xlutils.copy import copy
 
