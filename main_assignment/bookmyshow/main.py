@@ -1,7 +1,8 @@
-from main_assignment.data import admin_login, user_login, register_user
+from bookmyshow.admin import admin_options
+from bookmyshow.data import user_registration, user_login, admin_login
 
 
-class Main:
+class HomePage:
     def home_page(self):
         print("****** Welcome to BookMyShow *******")
         print("1.Login")
@@ -12,34 +13,36 @@ class Main:
             print("Please enter a valid option between 1 to 3..!!")
             self.home_page()
         if option == 1:
-            print("1.Login")
+            print("--- Login ---")
             print("****** Welcome to BookMyShow *******")
             username = input("Enter Username : ")
             password = input("Enter Password : ")
             admin_user, admin_password = admin_login()
-            user_username, user_password = user_login()
             if admin_user == username:
                 if admin_password == password:
-                    print("Login Successful")
+                    print("--- Admin Login Successful ---")
+                    admin_options()
                 else:
-                    print("Password Wrong")
+                    print("Incorrect Password..!!")
                     self.home_page()
-            elif user_username == username:
-                if user_password == password:
-                    print("Login Successful")
+            elif admin_user != username:
+                res = user_login(username, password)
+                if res:
+                    print("User Login Successful")
+                    self.home_page()
                 else:
-                    print("Password Wrong")
+                    print("Retry Login or Register User..!!")
                     self.home_page()
             else:
-                print("Username Wrong, Register")
+                print("Incorrect Username, Register to Login..!!")
                 self.home_page()
-        if option == 2:
-            register_user()
+        elif option == 2:
+            print("--- Register New Account ---")
+            user_registration()
+            self.home_page()
+        elif option == 3:
+            print("--- Exit ---")
 
-    def return_page(self):
-        self.home_page()
 
-
-obj = Main()
+obj = HomePage()
 obj.home_page()
-
